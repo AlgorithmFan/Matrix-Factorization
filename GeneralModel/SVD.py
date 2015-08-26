@@ -62,10 +62,10 @@ class SVD():
             # GAMMA *= 0.80
             rmse = np.sqrt(rmse/users_items_rates.shape[0])
             print 'The RMSE of Iteration {STEP} is {RMSE}.'.format(STEP=step, RMSE=rmse)
-            if abs(old_rmse-rmse) < self.threshold:
-                break
-            else:
+            if old_rmse - rmse > self.threshold:
                 old_rmse = rmse
+            else:
+                break
 
     def predict(self, users_items_rates):
         output = list()
