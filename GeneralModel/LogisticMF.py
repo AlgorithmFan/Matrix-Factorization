@@ -2,6 +2,7 @@
 #coding:utf-8
 
 '''
+https://github.com/MrChrisJohnson/logistic-mf/blob/master/logistic_mf.py
 Input:
     users_items_rates: user_id * item_id * rate
     K: the number of latent features

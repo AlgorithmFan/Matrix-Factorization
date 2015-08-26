@@ -21,7 +21,8 @@ class SVD():
         self.pu = {}
         self.qi = {}
         self.mu = 0
-        self.threshold = 0.00001
+
+        self.threshold = 0.0001
 
     def initParameters(self, users_items_rates, K):
         # calculate the average rate
@@ -48,7 +49,9 @@ class SVD():
         #
         for step in range(num_steps):
             old_rmse, rmse = 0.0, 0.0
-            for user_id, item_id, rate in users_items_rates:
+            index = np.random.permutation(users_items_rates.shape[0])
+            for i in range(users_items_rates.shape[0]):
+                user_id, item_id, rate = users_items_rates[index[i]]
                 predict_rate = self._calRate(user_id, item_id)
                 error_ui = rate - predict_rate
                 rmse += error_ui * error_ui
@@ -56,7 +59,7 @@ class SVD():
                 self.bi[item_id] = self.bi[item_id] + GAMMA*(error_ui - LAMBDA*self.bi[item_id])
                 self.pu[user_id] = self.pu[user_id] + GAMMA*(error_ui*self.qi[item_id] - LAMBDA*self.pu[user_id])
                 self.qi[item_id] = self.qi[item_id] + GAMMA*(error_ui*self.pu[user_id] - LAMBDA*self.qi[item_id])
-            GAMMA *= 0.80
+            # GAMMA *= 0.80
             rmse = np.sqrt(rmse/users_items_rates.shape[0])
             print 'The RMSE of Iteration {STEP} is {RMSE}.'.format(STEP=step, RMSE=rmse)
             if abs(old_rmse-rmse) < self.threshold:

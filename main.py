@@ -18,7 +18,7 @@ def readData(filename):
 
 def main(users_items_rates):
     mSVD = SVD()
-    LAMBDA, GAMMA = 0.15, 0.04
+    LAMBDA, GAMMA = 0.1, 0.04
     K = 30
     num_steps = 100
     mSVD.learn(users_items_rates, K, num_steps, LAMBDA, GAMMA)
